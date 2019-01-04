@@ -3,14 +3,14 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
+    @posts = Post.all.includes(:comments)
 
-    render json: @posts
+    render json: @posts.to_json(:include => :comments)
   end
 
   # GET /posts/1
   def show
-    render json: @post
+    render json: @post.to_json(:include => :comments)
   end
 
   # POST /posts
@@ -41,7 +41,7 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.includes(:comments).find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
