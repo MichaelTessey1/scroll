@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.0.1",
+  "proxy": "http://localhost:3001",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
