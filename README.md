@@ -34,6 +34,9 @@ A user will be able to:
 - explore tab
 - blocking users
 
+## ERD
+![ERD](./assets/ERD.png "Logo Title Text 1")
+
 ## Timeline
 1. Saturday (Back-End)
 - set up rails
