@@ -8,8 +8,9 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import Post from './components/post/Post';
+import PostView from './components/post/PostView';
 import styles from './styles.js';
+import { getPosts } from './services/apiservices';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -18,15 +19,24 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: [] 
+    }
+  }
+  async componentDidMount() {
+    let posts = await getPosts();
+    this.setState({posts});
+  }
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
-        <Post />  
+        <PostView posts={this.state.posts} />  
       </View>
     )
   }
