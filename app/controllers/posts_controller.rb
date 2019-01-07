@@ -18,7 +18,7 @@ class PostsController < ApplicationController
   def create
     @user = current_user
     @post = @user.posts.create(post_params)
-    @post.photo.attach(params[:photo])
+   # @post.photo.attach(params[:photo])
     if @post.save
       render json: @post, status: :created, location: @post
     else
