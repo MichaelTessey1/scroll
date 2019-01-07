@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Dimensions,
   Image,
   Platform,
   ScrollView,
@@ -17,7 +18,8 @@ export default class CameraScreen extends React.Component {
     super(props);
     this.state = {
       photo: '',
-      preview: false
+      preview: false,
+      type: Camera.Constants.Type.back
     } 
   }
   static navigationOptions = {
@@ -32,22 +34,34 @@ export default class CameraScreen extends React.Component {
     }
   }
   render() {
-    console.log(Camera.constants);
+    console.log(Camera.Constants);
     if (!this.state.preview) {
       return (
-        <Camera 
-          ref={cam => { this.camera = cam; }}
-          style={styles.preview} 
-        > 
-          <Text style={styles.capture}
-            onPress={this.snap}> [CAPTURE] </Text>
-        </Camera>
+        <View>
+          <Camera 
+            ref={cam => { this.camera = cam; }}
+            style={styles.preview} 
+            type={this.state.type}
+          > 
+            <Text style={styles.capture}
+              onPress={this.snap}> [CAPTURE] </Text>
+            <Text style={styles.capture}
+              onPress={() => {
+                this.setState({
+                  type: this.state.type === Camera.Constants.Type.back
+                  ? Camera.Constants.Type.front
+                  : Camera.Constants.Type.back
+                })
+              }}> [FLIP] </Text>
+          </Camera>
+        </View>
       )
     }
     else {
+      let { width } = Dimensions.get('window');
       return (
         <Image 
-          style={{width: 500, height: 500}}
+          style={{width, height: width}}
           source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
         /> 
       ) 
