@@ -25,21 +25,33 @@ export default class CameraScreen extends React.Component {
   };
 
   snap = async () => {
-    console.log(this.camera);
-    let photo = await this.camera.takePictureAsync({ base64: true });
-    console.log(photo);
+    if(this.camera) {
+      let photo = await this.camera.takePictureAsync({ base64: true });
+      this.setState({photo, preview: true});
+      console.log(this.state);
+    }
   }
   render() {
     console.log(Camera.constants);
-    return (
-      <Camera 
-        ref={cam => { this.camera = cam; }}
-        style={styles.preview} 
-      > 
-        <Text style={styles.capture}
-          onPress={this.snap}> [CAPTURE] </Text>
-      </Camera>
-    )
+    if (!this.state.preview) {
+      return (
+        <Camera 
+          ref={cam => { this.camera = cam; }}
+          style={styles.preview} 
+        > 
+          <Text style={styles.capture}
+            onPress={this.snap}> [CAPTURE] </Text>
+        </Camera>
+      )
+    }
+    else {
+      return (
+        <Image 
+          style={{width: 500, height: 500}}
+          source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
+        /> 
+      ) 
+    }
   }
 }
 
