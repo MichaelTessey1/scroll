@@ -13,16 +13,22 @@ import { Camera } from 'expo';
 import { MonoText } from '../components/StyledText';
 
 export default class CameraScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      photo: '',
+      preview: false
+    } 
+  }
   static navigationOptions = {
     header: null,
   };
 
-  takePicture() { 
-    this.camera.capture()
-      .then((data) => console.log(data))
-      .catch(err => console.error(err)); 
+  snap = async () => {
+    console.log(this.camera);
+    let photo = await this.camera.takePictureAsync({ base64: true });
+    console.log(photo);
   }
-
   render() {
     console.log(Camera.constants);
     return (
@@ -31,7 +37,7 @@ export default class CameraScreen extends React.Component {
         style={styles.preview} 
       > 
         <Text style={styles.capture}
-          onPress={this.takePicture.bind(this)}> [CAPTURE] </Text>
+          onPress={this.snap}> [CAPTURE] </Text>
       </Camera>
     )
   }
