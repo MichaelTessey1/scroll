@@ -4,6 +4,7 @@ class User < ApplicationRecord
   
   has_many :comments
   has_many :posts
+  has_one_attached :avatar
 
   def to_token_payload
     {

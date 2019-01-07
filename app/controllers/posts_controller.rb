@@ -18,7 +18,7 @@ class PostsController < ApplicationController
   def create
     @user = current_user
     @post = @user.posts.create(post_params)
-
+    @post.photo.attach(params[:photo])
     if @post.save
       render json: @post, status: :created, location: @post
     else
@@ -48,6 +48,6 @@ class PostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def post_params
-      params.require(:post).permit(:url, :content)
+      params.require(:post).permit(:photo, :content)
     end
 end

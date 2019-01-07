@@ -16,6 +16,11 @@ gem 'puma', '~> 3.11'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# Use Figaro for ENV variables
+gem 'figaro'
+# Use Amazon S3 for file storage
+gem "aws-sdk-s3", require: false
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
