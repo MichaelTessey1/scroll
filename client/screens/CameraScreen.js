@@ -42,15 +42,19 @@ export default class CameraScreen extends React.Component {
   snap = async () => {
     await this.permissions();
     let photo = await ImagePicker.launchCameraAsync(this.conditions());
-    photo.cancelled ? null : this.setState({photo});
-    this.setState({preview : true});
+    if (!photo.cancelled) {
+      this.setState({photo});
+      this.setState({preview : true});
+    }
   }
 
   check = async () => {
     await this.permissions();
     let photo = await ImagePicker.launchImageLibraryAsync(this.conditions());
-    photo.cancelled ? null : this.setState({photo});
-    this.setState({preview : true});
+    if (!photo.cancelled) {
+      this.setState({photo});
+      this.setState({preview : true});
+    }
   }
 
   publish = async () => {
