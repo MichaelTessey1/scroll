@@ -64,7 +64,7 @@ export default class CameraScreen extends React.Component {
     const data = this.state.photo.base64;
     const resp = await axios({
       method: 'post',
-      url: 'http://localhost:3001/posts',
+      url: 'http://3e4a7a98.ngrok.io/posts',
       headers: {
         'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDcwNDU3MjksInN1YiI6MSwiZW1haWwiOiJhQGEuY28ifQ.AirhXQYVeIHbc5MYq-E2QctRRWguSML2b9UDaQ7kGX4'
       },
