@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Dimensions,
   Image,
   Platform,
@@ -10,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { Camera } from 'expo';
+import { Camera, ImagePicker, Permissions } from 'expo';
 import { MonoText } from '../components/StyledText';
 
 export default class CameraScreen extends React.Component {
@@ -27,53 +28,57 @@ export default class CameraScreen extends React.Component {
   };
 
   snap = async () => {
-    if(this.camera) {
-      let photo = await this.camera.takePictureAsync({ base64: true });
-      this.setState({photo, preview: true});
-      console.log(this.state);
-    }
+    await Permissions.askAsync(Permissions.CAMERA);
+    let photo = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [1,1],
+      base64: true
+    });
+    photo.cancelled ? null : this.setState({photo});
+    this.setState({preview : true});
+  }
+
+  check = async () => {
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    let photo = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [1,1],
+      base64: true
+    });
+    photo.cancelled ? null : this.setState({photo});
+    this.setState({preview : true});
+  }
+  getPermissions = async () => {
+    console.log('yeet'); 
   }
   render() {
-    console.log(Camera.Constants);
-    if (!this.state.preview) {
-      return (
-        <View>
-          <Camera 
-            ref={cam => { this.camera = cam; }}
-            style={styles.preview} 
-            type={this.state.type}
-          > 
-            <Text style={styles.capture}
-              onPress={this.snap}> [CAPTURE] </Text>
-            <Text style={styles.capture}
-              onPress={() => {
-                this.setState({
-                  type: this.state.type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-                })
-              }}> [FLIP] </Text>
-          </Camera>
-        </View>
-      )
-    }
-    else {
-      let { width } = Dimensions.get('window');
-      return (
-        <Image 
-          style={{width, height: width}}
-          source={{uri: `data:image/png;base64,${this.state.photo.base64}`}}
-        /> 
-      ) 
+    let { preview } = this.state;
+    if (!preview) {
+        return (
+          <View>
+            <Button title="OPEN CAMERA" onPress={this.snap}/>
+            <Button title="OPEN PHOTOS" onPress={this.check}/>
+          </View>
+         )
+    } else {
+      let { height, width } = Dimensions.get('window');
+        return (
+          <View>
+            <Image 
+              style={{width, height: width}} 
+              resizeMode="contain"
+              source={{uri: this.state.photo.uri}}/>
+          </View>
+        )
+      } 
     }
   }
-}
 
 const styles = StyleSheet.create({ 
   preview: {
     flex: 1, 
     justifyContent: 'flex-end', 
-    alignItems: 'center', 
+    alignItems: 'center',
   },  
   capture: { 
     flex: 0, 
