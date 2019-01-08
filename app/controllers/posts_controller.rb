@@ -5,14 +5,21 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     @posts = Post.all.includes(:comments)
-
-    render json: @posts.to_json(:include => :comments)
+    returned = []
+    @posts.each do |post|
+      json_post = post.as_json(:include => :comments)
+      json_post["photo"] = url_for(post.photo)
+      returned.push(json_post)
+    end
+    render json: returned
   end
 
   # GET /posts/1
   def show
     # render json: url_for(@post.photo)
-    render json: @post.as_json(:include => :comments)
+    returned = @post.as_json(:include => :comments)
+    returned["photo"] = url_for(@post.photo)
+    render json: returned 
   end
 
   # POST /posts
