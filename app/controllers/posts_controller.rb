@@ -11,14 +11,15 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    render json: @post.to_json(:include => :comments)
+    # render json: url_for(@post.photo)
+    render json: @post.as_json(:include => :comments)
   end
 
   # POST /posts
   def create
     @user = current_user
     @post = @user.posts.create(post_params)
-   # @post.photo.attach(params[:photo])
+    @post.photo.attach(io: photo_io, filename: params[:name])
     if @post.save
       render json: @post, status: :created, location: @post
     else
@@ -48,6 +49,11 @@ class PostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def post_params
-      params.require(:post).permit(:photo, :content)
+      params.require(:post).permit(:user_id, :data, :name, :content)
+    end
+
+    def photo_io
+      photo = Base64.decode64(params[:data])
+      StringIO.new(photo)
     end
 end
