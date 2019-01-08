@@ -13,7 +13,7 @@ import {
 import { WebBrowser } from 'expo';
 import { Camera, ImagePicker, Permissions } from 'expo';
 import { MonoText } from '../components/StyledText';
-
+import axios from 'axios';
 export default class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -21,47 +21,70 @@ export default class CameraScreen extends React.Component {
       photo: '',
       preview: false,
       type: Camera.Constants.Type.back
-    } 
+    }
+    this.conditions = this.conditions.bind(this);
+    this.permissions = this.permissions.bind(this);
   }
   static navigationOptions = {
     header: null,
   };
-
-  snap = async () => {
-    await Permissions.askAsync(Permissions.CAMERA);
-    let photo = await ImagePicker.launchCameraAsync({
+  conditions = () => {
+    return {
       allowsEditing: true,
       aspect: [1,1],
       base64: true
-    });
+    }
+  }
+  permissions = async () => {
+    await Permissions.askAsync(Permissions.CAMERA);
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  }
+  snap = async () => {
+    await this.permissions();
+    let photo = await ImagePicker.launchCameraAsync(this.conditions());
     photo.cancelled ? null : this.setState({photo});
     this.setState({preview : true});
   }
 
   check = async () => {
-    await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    let photo = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [1,1],
-      base64: true
-    });
+    await this.permissions();
+    let photo = await ImagePicker.launchImageLibraryAsync(this.conditions());
     photo.cancelled ? null : this.setState({photo});
     this.setState({preview : true});
   }
-  getPermissions = async () => {
-    console.log('yeet'); 
+
+  publish = async () => {
+    const uri = this.state.photo.uri;
+    const sections = uri.split('/'); 
+    const name = sections[sections.length - 1];
+    const data = this.state.photo.base64;
+    const resp = await axios({
+      method: 'post',
+      url: 'http://localhost:3001/posts',
+      headers: {
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDcwNDU3MjksInN1YiI6MSwiZW1haWwiOiJhQGEuY28ifQ.AirhXQYVeIHbc5MYq-E2QctRRWguSML2b9UDaQ7kGX4'
+      },
+      data: {
+        content: "hooby",
+        data,
+        name,
+        user_id: 1
+      }
+    });
   }
   render() {
     let { preview } = this.state;
     if (!preview) {
         return (
-          <View>
+          <View style={styles.preview}>
             <Button title="OPEN CAMERA" onPress={this.snap}/>
             <Button title="OPEN PHOTOS" onPress={this.check}/>
           </View>
          )
     } else {
       let { height, width } = Dimensions.get('window');
+      console.log(this.state.photo);
+      this.publish();
         return (
           <View>
             <Image 
