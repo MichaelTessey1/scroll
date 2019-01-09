@@ -41,7 +41,11 @@ export default class HomeScreen extends React.Component {
             <ScrollView style={{height}}>
               <Image source={{uri: photo.photo}} style={{width, height: width}}/>
               <Text style={{fontSize: 16}}>{photo.content}</Text>
-              {photo.comments.map(comment => (<Text>{comment.content}</Text>))}
+              {photo.comments.map(comment => {
+                return (
+                  <Text>{`${comment.user.username}: ${comment.content}`}</Text>
+                )
+              })}
             </ScrollView>
           )
         }): null}  

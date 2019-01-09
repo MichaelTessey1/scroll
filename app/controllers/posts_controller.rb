@@ -4,10 +4,12 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all.includes(:comments)
+    @posts = Post.all
     returned = []
     @posts.each do |post|
       json_post = post.as_json(:include => :comments)
+      comments = post.comments.as_json(:include => { :user => { :only => :username }})
+      json_post["comments"] = comments 
       json_post["photo"] = url_for(post.photo)
       returned.push(json_post)
     end
