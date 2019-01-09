@@ -9,6 +9,7 @@ class PostsController < ApplicationController
     @posts.each do |post|
       json_post = post.as_json(:include => :comments)
       json_post["photo"] = url_for(post.photo)
+      json_post["username"] = post.user.as_json["username"]
       returned.push(json_post)
     end
     render json: returned
