@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Button,
+  CameraRoll,
   Dimensions,
   Image,
   Platform,
@@ -10,29 +11,34 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
 import { Camera, ImagePicker, Permissions } from 'expo';
-import { MonoText } from '../components/StyledText';
+import Editor from '../components/camera/Editor.js';
 import axios from 'axios';
+
 export default class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       photo: '',
       preview: false,
-      type: Camera.Constants.Type.back
+      text: ''
     }
     this.conditions = this.conditions.bind(this);
     this.permissions = this.permissions.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   static navigationOptions = {
-    header: null,
+    title: 'Camera',
   };
+  handleChange = (text) => {
+    this.setState({text});
+  }
   conditions = () => {
     return {
       allowsEditing: true,
       aspect: [1,1],
-      base64: true
+      base64: true,
+      exif: true
     }
   }
   permissions = async () => {
@@ -45,6 +51,7 @@ export default class CameraScreen extends React.Component {
     if (!photo.cancelled) {
       this.setState({photo});
       this.setState({preview : true});
+      CameraRoll.saveToCameraRoll(photo.uri);
     }
   }
 
@@ -62,19 +69,21 @@ export default class CameraScreen extends React.Component {
     const sections = uri.split('/'); 
     const name = sections[sections.length - 1];
     const data = this.state.photo.base64;
+    const content = this.state.text;
     const resp = await axios({
       method: 'post',
       url: 'http://3e4a7a98.ngrok.io/posts',
       headers: {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDcwNDU3MjksInN1YiI6MSwiZW1haWwiOiJhQGEuY28ifQ.AirhXQYVeIHbc5MYq-E2QctRRWguSML2b9UDaQ7kGX4'
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDcxMzM5MDUsInN1YiI6MSwiZW1haWwiOiJhQGEuY28ifQ.WDTjARPxftPfx9H2T7lhxm-O_kpsYw0hf3ZNWvye0zM'
       },
       data: {
-        content: "hooby",
+        content,
         data,
         name,
         user_id: 1
       }
     });
+    this.setState({preview: false})
   }
   render() {
     let { preview } = this.state;
@@ -86,16 +95,13 @@ export default class CameraScreen extends React.Component {
           </View>
          )
     } else {
-      let { height, width } = Dimensions.get('window');
-      console.log(this.state.photo);
-      this.publish();
-        return (
-          <View>
-            <Image 
-              style={{width, height: width}} 
-              resizeMode="contain"
-              source={{uri: this.state.photo.uri}}/>
-          </View>
+      return (
+        <Editor
+          uri={{uri: this.state.photo.uri}}
+          onChange={this.handleChange}
+          text={this.state.content}
+          handleSubmit={this.publish}
+        />
         )
       } 
     }
