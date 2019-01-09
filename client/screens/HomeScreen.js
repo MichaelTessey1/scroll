@@ -35,13 +35,17 @@ export default class HomeScreen extends React.Component {
   render() {
     let { height, width } = Dimensions.get('window');
     return (
-      <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>
-        {this.state.photos ? this.state.photos.map(photo => {
+      <ScrollView horizontal={true} pagingEnabled={true} decelerationRate={0} snaptoInterval={width} snapToAlignment={"center"} style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>
+        {this.state.photos ? this.state.photos.reverse().map(photo => {
           return (
-            <Image source={{uri: photo.photo}} style={{height: width / 3, width: width / 3}}/>
+            <ScrollView style={{height}}>
+              <Image source={{uri: photo.photo}} style={{width, height: width}}/>
+              <Text style={{fontSize: 16}}>{photo.content}</Text>
+              {photo.comments.map(comment => (<Text>{comment.content}</Text>))}
+            </ScrollView>
           )
         }): null}  
-      </View>
+      </ScrollView>
     );
   }
 
