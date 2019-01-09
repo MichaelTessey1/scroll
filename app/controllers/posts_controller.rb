@@ -10,6 +10,7 @@ class PostsController < ApplicationController
       json_post = post.as_json(:include => :comments)
       json_post["photo"] = url_for(post.photo)
       json_post["username"] = post.user.as_json["username"]
+      # json_post["avatar"] = url_for(post.user.avatar)
       returned.push(json_post)
     end
     render json: returned
@@ -17,7 +18,6 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    # render json: url_for(@post.photo)
     returned = @post.as_json(:include => :comments)
     returned["photo"] = url_for(@post.photo)
     render json: returned 
