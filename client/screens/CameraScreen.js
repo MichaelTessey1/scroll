@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AsyncStorage,
   Button,
   CameraRoll,
   Dimensions,
@@ -70,11 +71,12 @@ export default class CameraScreen extends React.Component {
     const name = sections[sections.length - 1];
     const data = this.state.photo.base64;
     const content = this.state.text;
+    const token = await AsyncStorage.getItem('token');
     const resp = await axios({
       method: 'post',
       url: 'http://531b356c.ngrok.io/posts',
       headers: {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDcxMzM5MDUsInN1YiI6MSwiZW1haWwiOiJhQGEuY28ifQ.WDTjARPxftPfx9H2T7lhxm-O_kpsYw0hf3ZNWvye0zM'
+        'Authorization': `Bearer ${token}`
       },
       data: {
         content,
