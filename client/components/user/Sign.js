@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, Button, StyleSheet, Text, View } from 'react-native';
 import Login from './Login';
 import Register from './Register';
+import axios from 'axios';
 
 export default class Sign extends React.Component {
   constructor(props) {
@@ -10,10 +11,23 @@ export default class Sign extends React.Component {
       splash: true,
       login: false
     }
-    this.setView.bind(this);
+    this.login = this.login.bind(this);
+    this.setView = this.setView.bind(this);
   }
-  setView(splash, login) {
-    this.setState({splash, login});
+  buildHeaders() {
+    return {
+      'Authorization': `Bearer ${AsyncStorage.getItem('token')}`
+    }
+  }
+  async login(auth) {
+    const resp = await axios.post('http://531b356c.ngrok.io/user_token', { auth }); 
+    if (resp.data.jwt != null) {
+      await AsyncStorage.setItem('token', resp.data.jwt);
+      this.props.getToken(); 
+    }
+  }
+  setView(view, sign) {
+    this.setState({splash: view, login: sign});
   }
   render() {
     if (this.state.splash) {
@@ -33,7 +47,7 @@ export default class Sign extends React.Component {
     else {
       return (
         <View>
-          {this.state.login ? <Login reset={() => this.setView(true,true)}/> : <Register  reset={() => this.setView(true,false)}/>}
+          {this.state.login ? <Login submit={this.login} reset={() => this.setView(true,true)}/> : <Register  reset={() => this.setView(true,false)}/>}
         </View>
       )
     }

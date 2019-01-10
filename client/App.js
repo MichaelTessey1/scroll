@@ -10,12 +10,17 @@ export default class App extends React.Component {
       isLoadingComplete: false,
       token: ''
     }
+    this.getToken = this.getToken.bind(this);
   }
 
+  async getToken() {
+    const token = await AsyncStorage.getItem('token');
+    await this.setState({token})
+    console.warn(this.state.token, ' is the token.');
+  }
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-      AsyncStorage.getItem('token').then(token => this.setState({token}));
-      console.warn(this.state.token);
+      this.getToken();
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}
@@ -27,7 +32,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {this.state.token ? <AppNavigator /> : <Sign />}
+          {this.state.token ? <AppNavigator /> : <Sign getToken={async () => await this.getToken()}/>}
         </View>
       );
     }
