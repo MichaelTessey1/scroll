@@ -111,7 +111,7 @@ export default class CameraScreen extends React.Component {
 const styles = StyleSheet.create({ 
   preview: {
     flex: 1, 
-    justifyContent: 'flex-end', 
+    justifyContent: 'center', 
     alignItems: 'center',
   },  
   capture: { 
