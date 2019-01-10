@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user, only: [:create, :update, :destroy]
+  before_action :authenticate_user, only: [:create, :user_posts, :update, :destroy]
   before_action :set_post, only: [:show, :update, :destroy]
 
   # GET /posts
@@ -23,6 +23,17 @@ class PostsController < ApplicationController
     returned = @post.as_json(:include => :comments)
     returned["photo"] = url_for(@post.photo)
     render json: returned 
+  end
+
+  def user_posts
+    @posts = Post.all.where({user_id: current_user.id}).order('id DESC')
+    returned = []
+    @posts.each do |post|
+      json_post = post.as_json
+      json_post["photo"] = url_for(post.photo)
+      returned.push(json_post)
+    end
+    render json: returned
   end
 
   # POST /posts
