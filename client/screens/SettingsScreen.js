@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, Button, Dimensions, Image, View, Text }from 'react-native';
+import { AsyncStorage, Button, Dimensions, Image, ScrollView, Text, View }from 'react-native';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
@@ -40,15 +40,17 @@ export default class SettingsScreen extends React.Component {
   render() {
     let { height, width } = Dimensions.get('window');
     return ( 
-      <View>
+      <ScrollView> 
         <Text style={{fontSize: 36}}>{this.state.user.username}</Text>
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         {this.state.user_photos ? this.state.user_photos.map(photo => {
           return (
             <Image key={photo.id} source={{uri: photo.photo}} style={{width: width / 3, height: width / 3}}/>
           )
         }) : null}
+        </View>
         <Button title="LOG OUT" onPress={() => AsyncStorage.removeItem('token')}/>
-      </View>
+      </ScrollView>
     )
   }
 }
