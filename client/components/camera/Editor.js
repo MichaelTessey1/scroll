@@ -6,7 +6,8 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  View
 } from 'react-native';
 
 export default function Editor(props) {
@@ -18,12 +19,13 @@ export default function Editor(props) {
           resizeMode="contain"
           source={props.uri}/>
         <TextInput
-          style={{width, height: width / 4, color: 'black', borderColor: 'gray'}}
+          style={{width, height: width / 4, color: 'black', borderColor: 'gray', marginLeft: height / 30, marginTop: height / 60}}
           onChangeText={(text) => props.onChange(text)}
           value={props.text}
           placeholder={'Enter your caption!'}
           multiline={true}
         />
+        <View style={{borderBottomColor: 'gray', borderBottomWidth: 1, margin: height / 60}}/>
         {props.canUpdate ? <Button title="UPDATE" onPress={props.handleSubmit}/>
         : <Button 
           title="SUBMIT"

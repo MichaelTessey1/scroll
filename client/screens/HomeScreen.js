@@ -78,7 +78,6 @@ export default class HomeScreen extends React.Component {
   }
   async decode() {
     let user = jwt_decode(await AsyncStorage.getItem('token'));
-    console.warn(user);
     this.setState({current_user: user.sub});
   }
   handleChange(content) {
@@ -113,7 +112,7 @@ export default class HomeScreen extends React.Component {
         <ScrollView showsHorizontalScrollIndicator={false} refreshControl={<RefreshControl refreshing={this.state.refresh} onRefresh={this.refresh}/>} horizontal={true} pagingEnabled={true} decelerationRate={0} snaptoInterval={width} snapToAlignment={"center"} style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>
           {this.state.photos ? this.state.photos.map(photo => {
             return (
-              <ScrollView style={{height}}>
+              <ScrollView key={photo.id} style={{height}}>
                 <Image source={{uri: photo.photo}} style={{width, height: width}}/>
                 <View style={{flexDirection: 'row', marginLeft: height / 30, marginTop: height / 60}}>
                   <Text style={{fontSize: 16, fontWeight: '600', color: 'blue'}}>{photo.username + "     "}</Text>
@@ -122,7 +121,7 @@ export default class HomeScreen extends React.Component {
                 <View style={{borderBottomColor: 'gray', borderBottomWidth: 1, margin: height / 60}}/>
                 {photo.comments.map(comment => {
                   return (
-                    <View style={{flexDirection: 'row', marginLeft: height / 30, marginTop: height / 60}}>
+                    <View key={comment.id} style={{flexDirection: 'row', marginLeft: height / 30, marginTop: height / 60}}>
                       <Text style={{fontSize: 16, fontWeight: '600', color: 'blue'}}>{comment.user.username + "     "}</Text>
                       <Text style={{fontSize: 16}}>{comment.content}</Text>
                     </View>
