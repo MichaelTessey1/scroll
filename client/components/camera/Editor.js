@@ -24,11 +24,12 @@ export default function Editor(props) {
           placeholder={'Enter your caption!'}
           multiline={true}
         />
-        {props.canUpdate ? <Button title="UPDATE" onPress={props.handleUpdate}/> : null}
-        {props.canUpdate ? <Button title="DELETE" onPress={props.handleDelete}/> : null}
-        <Button 
+        {props.canUpdate ? <Button title="UPDATE" onPress={props.handleSubmit}/>
+        : <Button 
           title="SUBMIT"
-          onPress={props.handleSubmit}/>
+          onPress={props.handleSubmit}/>}
+        {props.canUpdate ? <Button title="DELETE" onPress={props.handleDelete}/> : null}
+        {props.canUpdate ? <Button title="CANCEL" onPress={props.handleCancel}/> : null}
       </ScrollView>
   )
 }

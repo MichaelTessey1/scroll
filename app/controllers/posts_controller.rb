@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
+    @posts = Post.all.order('id DESC')
     returned = []
     @posts.each do |post|
       json_post = post.as_json(:include => :comments)
