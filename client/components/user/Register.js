@@ -7,7 +7,8 @@ export default class Register extends React.Component {
       email: '',
       username: '',
       password: '',
-      password_confirmation: ''
+      password_confirmation: '',
+      bio: ''
     }
   }
   render() {
@@ -39,7 +40,10 @@ export default class Register extends React.Component {
           placeholder={"password confirmation"}
           secureTextEntry={true}
         />
-        <Button title="SUBMIT"/>
+        <Button 
+          title="SUBMIT"
+          onPress={() => this.props.submit(this.state)}
+        />
         <Button 
           title="RETURN"
           onPress={this.props.reset}

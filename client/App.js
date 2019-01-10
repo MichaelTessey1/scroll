@@ -16,7 +16,6 @@ export default class App extends React.Component {
   async getToken() {
     const token = await AsyncStorage.getItem('token');
     await this.setState({token})
-    console.warn(this.state.token, ' is the token.');
   }
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -29,6 +28,7 @@ export default class App extends React.Component {
         />
       );
     } else {
+      this.getToken();
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}

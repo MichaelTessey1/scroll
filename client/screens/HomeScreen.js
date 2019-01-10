@@ -25,7 +25,7 @@ export default class HomeScreen extends React.Component {
     this.getPhotos = this.getPhotos.bind(this);
   }
   getPhotos = async () => {
-    const resp = await axios.get('http://3e4a7a98.ngrok.io/posts');
+    const resp = await axios.get('http://531b356c.ngrok.io/posts');
     return resp.data;
   }
   componentDidMount = async () => {
