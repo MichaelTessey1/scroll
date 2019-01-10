@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Dimensions,
   Image,
   Text,
@@ -11,22 +12,23 @@ import {
 export default function Editor(props) {
   let { height, width } = Dimensions.get('window');
   return (
-      <ScrollView>
+      <ScrollView contentContainerStyle={{flex: 1, justifyContent: "flex-start", alignItems: "center"}}>
         <Image 
-          style={{width, height: width}} 
+          style={{width: width * 2 / 3, height: width * 2 / 3 }} 
           resizeMode="contain"
           source={props.uri}/>
         <TextInput
-          style={{width, height: width / 2, color: 'black', borderColor: 'gray'}}
+          style={{width, height: width / 4, color: 'black', borderColor: 'gray'}}
           onChangeText={(text) => props.onChange(text)}
           value={props.text}
           placeholder={'Enter your caption!'}
           multiline={true}
         />
-        <TouchableHighlight 
-          onPress={props.handleSubmit}>
-          <Text>Submit!</Text>
-        </TouchableHighlight>
+        {props.canUpdate ? <Button title="UPDATE" onPress={props.handleUpdate}/> : null}
+        {props.canUpdate ? <Button title="DELETE" onPress={props.handleDelete}/> : null}
+        <Button 
+          title="SUBMIT"
+          onPress={props.handleSubmit}/>
       </ScrollView>
   )
 }
