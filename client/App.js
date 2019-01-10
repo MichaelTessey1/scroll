@@ -1,19 +1,21 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { AsyncStorage, Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-
+import Sign from './components/user/Sign';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoadingComplete: false,
-      token: '' ,
+      token: ''
     }
   }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+      AsyncStorage.getItem('token').then(token => this.setState({token}));
+      console.warn(this.state.token);
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}
@@ -25,7 +27,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          {this.state.token ? <AppNavigator /> : <Sign />}
         </View>
       );
     }
