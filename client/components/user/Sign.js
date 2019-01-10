@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, Button, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, Button, Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import Login from './Login';
 import Register from './Register';
 import axios from 'axios';
@@ -41,7 +41,9 @@ export default class Sign extends React.Component {
   render() {
     if (this.state.splash) {
       return (
-        <View style={{flex: 1, justifyContent: "center", textAlign: "center"}}>
+        <View style={{backgroundColor: '#52aefc', width: Dimensions.get('window').width, height: Dimensions.get('window').height}}>
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center", textAlign: "center"}}>    
+        <Image source={require('../../assets/images/scroll-icon.png')} style={{height: Dimensions.get('window').width / 3, width: Dimensions.get('window').width / 3}}/>
           <Button 
             title="Login" 
             onPress={() => this.setView(false,true)} 
@@ -49,7 +51,8 @@ export default class Sign extends React.Component {
           <Button 
             title="Register" 
             onPress={() => this.setView(false,false)} 
-            />
+          />
+        </View>
         </View>
       )
     }

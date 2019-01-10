@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Dimensions, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 export default class Register extends React.Component {
   constructor(props) {
     super(props);
@@ -13,8 +13,10 @@ export default class Register extends React.Component {
   }
   render() {
     return (
-      <View>
-        <TextInput
+      <View style={{height: Dimensions.get('window').height, width: Dimensions.get('window').width, backgroundColor: '#52aefc'}}>
+      <View style={{alignItems: "center", marginTop: Dimensions.get('window').height / 10}}>  
+      <Image source={require('../../assets/images/scroll-icon.png')} style={{height: Dimensions.get('window').width / 3, width: Dimensions.get('window').width / 3}}/>
+      <TextInput
           style={styles.formBox}
           onChangeText={(email) => this.setState({email})}
           value={this.state.email}
@@ -48,6 +50,7 @@ export default class Register extends React.Component {
           title="RETURN"
           onPress={this.props.reset}
         />
+      </View>
       </View>
     )
   }
