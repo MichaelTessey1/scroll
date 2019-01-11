@@ -17,6 +17,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { MonoText } from '../components/StyledText';
 import Editor from '../components/camera/Editor';
+import CommentForm from '../components/comment/CommentForm.js';
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: "Feed" 
@@ -118,6 +119,7 @@ export default class HomeScreen extends React.Component {
                   <Text style={{fontSize: 16, fontWeight: '600', color: 'blue'}}>{photo.username + "     "}</Text>
                   <Text style={{fontSize: 16}}>{photo.content}</Text>
                 </View>
+                {photo.user_id === this.state.current_user ? <Button title="EDIT" onPress={async () => await this.handleEdit(photo.photo, photo.content, photo.id, true)}/> : null}
                 <View style={{borderBottomColor: 'gray', borderBottomWidth: 1, margin: height / 60}}/>
                 {photo.comments.map(comment => {
                   return (
@@ -127,7 +129,7 @@ export default class HomeScreen extends React.Component {
                     </View>
                   )
                 })}
-                {photo.user_id === this.state.current_user ? <Button title="EDIT" onPress={async () => await this.handleEdit(photo.photo, photo.content, photo.id, true)}/> : null}
+                <CommentForm post={photo.id} refresh={this.refresh}/>
               </ScrollView>
             )
           }): null}  
