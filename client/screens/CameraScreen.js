@@ -85,6 +85,7 @@ export default class CameraScreen extends React.Component {
       }
     });
     this.setState({preview: false})
+    this.props.navigation.navigate('Home');
   }
   render() {
     let { preview } = this.state;
