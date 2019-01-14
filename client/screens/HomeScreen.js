@@ -47,15 +47,14 @@ export default class HomeScreen extends React.Component {
     }
   }
   getPhotos = async () => {
-    console.warn(Config.SERVER);
-    const resp = await axios.get(`http://fc4616c1.ngrok.io/posts`);
+    const resp = await axios.get(`http://0c80ee5c.ngrok.io/posts`);
     await this.setState({photos: resp.data});
   }
   async delete() {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'delete',
-      url: `http://fc4616c1.ngrok.io/${this.state.id}`,
+      url: `http://0c80ee5c.ngrok.io/${this.state.id}`,
       headers
     });
     await this.refresh();
@@ -66,7 +65,7 @@ export default class HomeScreen extends React.Component {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'put',
-      url: `http://fc4616c1.ngrok.io/posts/${this.state.id}`,
+      url: `http://0c80ee5c.ngrok.io/posts/${this.state.id}`,
       data: {
         content: this.state.content 
       },
