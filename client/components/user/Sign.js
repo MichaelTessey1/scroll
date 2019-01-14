@@ -21,14 +21,14 @@ export default class Sign extends React.Component {
     }
   }
   async login(auth) {
-    const resp = await axios.post('http://531b356c.ngrok.io/user_token', { auth }); 
+    const resp = await axios.post(`http://fc4616c1.ngrok.io/user_token`, { auth }); 
     if (resp.data.jwt != null) {
       await AsyncStorage.setItem('token', resp.data.jwt);
       this.props.getToken(); 
     }
   }
   async register(user) {
-    await axios.post('http://531b356c.ngrok.io/users', { user });
+    await axios.post(`http://fc4616c1.ngrok.io/users`, { user });
     const auth = {
       email: user.email,
       password: user.password

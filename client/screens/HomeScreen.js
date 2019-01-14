@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import Config from 'react-native-config';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { MonoText } from '../components/StyledText';
@@ -47,14 +47,15 @@ export default class HomeScreen extends React.Component {
     }
   }
   getPhotos = async () => {
-    const resp = await axios.get('http://531b356c.ngrok.io/posts');
+    console.warn(Config.SERVER);
+    const resp = await axios.get(`http://fc4616c1.ngrok.io/posts`);
     await this.setState({photos: resp.data});
   }
   async delete() {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'delete',
-      url: `http://531b356c.ngrok.io/posts/${this.state.id}`,
+      url: `http://fc4616c1.ngrok.io/${this.state.id}`,
       headers
     });
     await this.refresh();
@@ -65,7 +66,7 @@ export default class HomeScreen extends React.Component {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'put',
-      url: `http://531b356c.ngrok.io/posts/${this.state.id}`,
+      url: `http://fc4616c1.ngrok.io/posts/${this.state.id}`,
       data: {
         content: this.state.content 
       },
