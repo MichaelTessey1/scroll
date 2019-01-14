@@ -28,7 +28,7 @@ export default class SettingsScreen extends React.Component {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'get',
-      url: `http://0c80ee5c.ngrok.io/user_posts`,
+      url: `http://powerful-fjord-66775.herokuapp.com/user_posts`,
       headers
     });
     this.setState({user_photos: resp.data});

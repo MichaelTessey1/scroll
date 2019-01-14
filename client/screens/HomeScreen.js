@@ -47,14 +47,14 @@ export default class HomeScreen extends React.Component {
     }
   }
   getPhotos = async () => {
-    const resp = await axios.get(`http://0c80ee5c.ngrok.io/posts`);
+    const resp = await axios.get(`http://powerful-fjord-66775.herokuapp.com/posts`);
     await this.setState({photos: resp.data});
   }
   async delete() {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'delete',
-      url: `http://0c80ee5c.ngrok.io/${this.state.id}`,
+      url: `http://powerful-fjord-66775.herokuapp.com/${this.state.id}`,
       headers
     });
     await this.refresh();
@@ -65,7 +65,7 @@ export default class HomeScreen extends React.Component {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'put',
-      url: `http://0c80ee5c.ngrok.io/posts/${this.state.id}`,
+      url: `http://powerful-fjord-66775/posts/${this.state.id}`,
       data: {
         content: this.state.content 
       },

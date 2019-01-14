@@ -19,7 +19,7 @@ export default class CommentForm extends React.Component {
     const headers = await this.buildHeaders();
     const resp = await axios({
       method: 'post',
-      url: `http://0c80ee5c.ngrok.io/comments`,
+      url: `http://powerful-fjord-66775.herokuapp.com/comments`,
       data: {
         content: this.state.content,
         post_id: this.props.post

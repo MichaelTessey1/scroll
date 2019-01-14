@@ -74,7 +74,7 @@ export default class CameraScreen extends React.Component {
     const token = await AsyncStorage.getItem('token');
     const resp = await axios({
       method: 'post',
-      url: `http://0c80ee5c.ngrok.io/posts`,
+      url: `http://powerful-fjord-66775.herokuapp.com/posts`,
       headers: {
         'Authorization': `Bearer ${token}`
       },
