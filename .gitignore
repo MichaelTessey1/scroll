@@ -29,4 +29,5 @@
 /config/application.yml
 
 # Ignore process variables
+.env
 /client/.env
