@@ -92,8 +92,12 @@ export default class CameraScreen extends React.Component {
     if (!preview) {
         return (
           <View style={styles.preview}>
-            <Button title="OPEN CAMERA" onPress={this.snap}/>
-            <Button title="OPEN PHOTOS" onPress={this.check}/>
+            <View>
+              <Button title="OPEN CAMERA" onPress={this.snap} color="#ffffff"/>
+            </View>
+            <View>
+              <Button title="OPEN PHOTOS" onPress={this.check} color='#ffffff'/>
+            </View>
           </View>
          )
     } else {
@@ -112,8 +116,9 @@ export default class CameraScreen extends React.Component {
 const styles = StyleSheet.create({ 
   preview: {
     flex: 1, 
-    justifyContent: 'center', 
+    justifyContent: 'space-around', 
     alignItems: 'center',
+    backgroundColor: '#52aefc'
   },  
   capture: { 
     flex: 0, 

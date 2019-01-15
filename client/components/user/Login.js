@@ -18,6 +18,7 @@ export default class Login extends React.Component {
             onChangeText={(email) => this.setState({email})}
             value={this.state.email}
             placeholder={"email"}
+            keyboardType="email-address"
           />
           <TextInput
             style={styles.formBox}
@@ -28,11 +29,11 @@ export default class Login extends React.Component {
           />
           <Button title="SUBMIT"
             onPress={() => this.props.submit(this.state)}
-            style={{color: '#FFFFFF'}}/>
+            color="#ffffff"/>
           <Button 
             title="RETURN"
             onPress={() => this.props.reset()}
-            style={{color: '#FFFFFF'}}
+            color="#ffffff"
           />
         </View>
       </View>

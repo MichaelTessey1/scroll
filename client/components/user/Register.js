@@ -21,6 +21,9 @@ export default class Register extends React.Component {
           onChangeText={(email) => this.setState({email})}
           value={this.state.email}
           placeholder={"email"}
+          keyboardType="email-address"
+          autoCorrect={false}
+          autoCapitalize="none"
         />
         <TextInput
           style={styles.formBox}
@@ -45,10 +48,12 @@ export default class Register extends React.Component {
         <Button 
           title="SUBMIT"
           onPress={() => this.props.submit(this.state)}
+          color='#ffffff'
         />
         <Button 
           title="RETURN"
           onPress={this.props.reset}
+          color='#ffffff'
         />
       </View>
       </View>

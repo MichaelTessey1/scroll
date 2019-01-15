@@ -46,10 +46,12 @@ export default class Sign extends React.Component {
         <Image source={require('../../assets/images/scroll-icon.png')} style={{height: Dimensions.get('window').width / 3, width: Dimensions.get('window').width / 3}}/>
           <Button 
             title="Login" 
+            color="#ffffff"
             onPress={() => this.setView(false,true)} 
             />
           <Button 
-            title="Register" 
+            title="Register"
+            color="#ffffff"
             onPress={() => this.setView(false,false)} 
           />
         </View>
