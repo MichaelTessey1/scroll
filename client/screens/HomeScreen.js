@@ -54,7 +54,7 @@ export default class HomeScreen extends React.Component {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'delete',
-      url: `http://powerful-fjord-66775.herokuapp.com/${this.state.id}`,
+      url: `http://powerful-fjord-66775.herokuapp.com/posts/${this.state.id}`,
       headers
     });
     await this.refresh();
@@ -65,7 +65,7 @@ export default class HomeScreen extends React.Component {
     let headers = await this.buildHeaders();
     const resp = await axios({
       method: 'put',
-      url: `http://powerful-fjord-66775/posts/${this.state.id}`,
+      url: `http://powerful-fjord-66775.herokuapp.com/posts/${this.state.id}`,
       data: {
         content: this.state.content 
       },
