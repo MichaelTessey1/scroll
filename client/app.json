@@ -1,16 +1,15 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "Scroll",
+    "slug": "scroll",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
-      "ios",
-      "android"
+      "ios"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/scroll-icon.png",
     "splash": {
       "image": "./assets/images/scroll-splash.png",
       "resizeMode": "cover",
